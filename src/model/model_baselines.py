@@ -1,0 +1,1 @@
+# naive, seasonal naive, moving average

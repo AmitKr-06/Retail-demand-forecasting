@@ -1,15 +1,50 @@
-ipython
-jupyterlab
-loguru
-matplotlib
-notebook
-numpy
+# Data
 pandas
-pip
-pytest
+numpy
+pyarrow
+duckdb
+scipy
+pandera
+pyyaml
 python-dotenv
-ruff
-scikit-learn
 tqdm
-typer
--e .
+
+# Visualisation
+matplotlib
+seaborn
+plotly
+
+# Modelling
+scikit-learn
+statsmodels
+statsforecast
+lightgbm
+optuna
+shap
+joblib
+
+# MLOps
+mlflow
+dvc
+dvc[s3]
+dagshub
+evidently
+
+# Serving
+fastapi
+uvicorn
+pydantic
+httpx
+
+# Quality and testing
+pytest
+pytest-cov
+ruff
+pre-commit
+
+# Notebook
+jupyter
+ipykernel
+nbformat
+
+# -e .

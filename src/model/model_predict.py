@@ -1,0 +1,1 @@
+# Predictor class used by the API
