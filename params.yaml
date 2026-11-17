@@ -1,1 +1,31 @@
-# horizon, lags, model parameters (DVC reads 
+# horizon, lags, model parameters (DVC reads)
+
+# Every setting that can change a result. DVC tracks this file.
+data:
+  store_id: CA_1     # store the model
+
+forecast:
+  horizon: 28      # days ahead
+  n_folds: 3       # backtest folds: consecutive 28-day windows before test window
+
+features:
+  bolck_shifts: [7, 14, 21, 28]   # one model per horizon block; sales featuers end 'shift' days before the target day
+  n_lags: 5                       # lag_k0.. lag_k4 = sales (shift + 7*k) days earlier
+  roll_mean_windows: [7, 28]
+  zero_rate_window: 28
+
+model:
+  common:
+    learning_rate: 0.1
+    num_leaves: 63
+    min_data_in_leaf: 100
+    feature_fraction: 0.8
+    bagging_fraction: 0.8
+    bagging_freq: 1
+    seed: 42
+  point:
+    objective: poisson
+    rounds: 300
+  quantile: 
+    alphas: [0.1, 0.5, 0.9]
+    rounds: 200
