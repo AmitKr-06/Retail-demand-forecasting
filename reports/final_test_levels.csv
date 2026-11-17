@@ -1,0 +1,4 @@
+,item-day,category-day,store-day
+moving average (28d),0.7478,0.1604,0.1513
+seasonal naive (7d),0.868,0.0868,0.0718
+LightGBM Poisson (final),0.7182,0.0677,0.0524

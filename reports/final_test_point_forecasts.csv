@@ -1,0 +1,8 @@
+,MAE,RMSE,WAPE,MASE
+zeros,1.57,3.9247,1.0,1.005
+naive,1.5678,3.0551,0.9986,1.2689
+seasonal naive (7d),1.3628,2.7375,0.868,1.1122
+moving average (28d),1.174,2.3472,0.7478,0.9759
+moving median (28d),1.1055,2.4517,0.7042,0.852
+LightGBM Poisson (final),1.1276,2.2018,0.7182,0.9612
+LightGBM P50 (clipped),1.062,2.3036,0.6764,0.8355

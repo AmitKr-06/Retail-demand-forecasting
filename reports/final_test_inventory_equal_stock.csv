@@ -1,0 +1,6 @@
+,k,fill rate,stockout units (% of demand),short on sales days (%),overstock units (% of demand),stock / demand
+moving average (mean),2.2727,0.8449,15.5105,23.0333,130.6621,2.1515
+moving median,3.0,0.7502,24.9813,38.9342,142.9323,2.1795
+LightGBM P50,3.1328,0.7764,22.3648,38.0826,137.4963,2.1513
+empirical P90 (28d),1.1,0.8657,13.4341,19.3669,130.048,2.1661
+LightGBM P90,1.0,0.8916,10.8407,14.6629,125.9714,2.1513

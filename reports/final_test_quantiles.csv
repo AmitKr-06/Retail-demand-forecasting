@@ -1,0 +1,7 @@
+,quantile,model,pinball,P(y < pred),P(y <= pred),total pred / total actual
+0,0.1,LightGBM (clipped),0.1515,0.0108,0.5108,0.0638
+1,0.1,empirical 28d,0.1519,0.0171,0.523,0.1832
+2,0.5,LightGBM (clipped),0.531,0.3244,0.6038,0.6895
+3,0.5,empirical 28d,0.5528,0.2125,0.6646,0.7158
+4,0.9,LightGBM (clipped),0.3545,0.8832,0.8854,2.153
+5,0.9,empirical 28d,0.3921,0.727,0.8912,2.0059

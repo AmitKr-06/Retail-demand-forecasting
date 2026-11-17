@@ -1,0 +1,5 @@
+,difference,point,2.5%,97.5%,share of samples LightGBM better
+0,WAPE Poisson - moving average,-0.0296,-0.0357,-0.0236,1.0
+1,WAPE P50 - moving median,-0.0277,-0.0337,-0.0216,1.0
+2,pinball P50 - empirical,-0.0218,-0.0274,-0.0164,1.0
+3,pinball P90 - empirical,-0.0375,-0.0432,-0.032,1.0
