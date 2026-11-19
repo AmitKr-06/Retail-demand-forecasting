@@ -1,0 +1,98 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: python -m src.data.data_ingestion
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 233b613f3946d94acae4d9897945e564.dir
+      size: 450472284
+      nfiles: 6
+    - path: src/config.py
+      hash: md5
+      md5: 758eaa1f612ef87d2bda7fcb8068a708
+      size: 306
+    - path: src/constant.py
+      hash: md5
+      md5: 9a55a894a4c1538237c98067f3437e19
+      size: 1999
+    - path: src/data/data_ingestion.py
+      hash: md5
+      md5: 2334ed436e2e6bf9c84228a2faf215fe
+      size: 4440
+    params:
+      params.yaml:
+        data.store_id: CA_1
+    outs:
+    - path: data/interim
+      hash: md5
+      md5: 60ff03690d19065d35c8496f4a2b2170.dir
+      size: 4943945
+      nfiles: 3
+  preprocess:
+    cmd: python -m src.data.data_preprocessing
+    deps:
+    - path: data/interim
+      hash: md5
+      md5: 60ff03690d19065d35c8496f4a2b2170.dir
+      size: 4943945
+      nfiles: 3
+    - path: src/constant.py
+      hash: md5
+      md5: 9a55a894a4c1538237c98067f3437e19
+      size: 1999
+    - path: src/data/data_preprocessing.py
+      hash: md5
+      md5: 99f3764ff9f7c8282a78fe66bc9deb4c
+      size: 5413
+    - path: src/data/data_validation.py
+      hash: md5
+      md5: 53951a304099d4032813691a11a28cdf
+      size: 5197
+    outs:
+    - path: data/processed/sales_long.parquet
+      hash: md5
+      md5: e4536aaad0371d9d1a47284e4e7cc446
+      size: 23049666
+  feature:
+    cmd: python -m src.feature.feature_engineering
+    deps:
+    - path: data/processed/sales_long.parquet
+      hash: md5
+      md5: e4536aaad0371d9d1a47284e4e7cc446
+      size: 23049666
+    - path: src/constant.py
+      hash: md5
+      md5: 9a55a894a4c1538237c98067f3437e19
+      size: 1999
+    - path: src/feature/feature_engineering.py
+      hash: md5
+      md5: 2eb92bf57f0a598985552a266dfed0b7
+      size: 11790
+    - path: src/utils.py
+      hash: md5
+      md5: 7ee7cc9bf0706609e5c67279f374a303
+      size: 2561
+    params:
+      params.yaml:
+        feature:
+          block_shifts:
+          - 7
+          - 14
+          - 21
+          - 28
+          n_lags: 5
+          roll_mean_windows:
+          - 7
+          - 28
+          roll_std_windows:
+          - 7
+          - 28
+          zero_rate_window: 28
+        forecast.horizon: 28
+    outs:
+    - path: data/processed/features
+      hash: md5
+      md5: 92a630aa57a9f409004f408920c3965c.dir
+      size: 242418656
+      nfiles: 5
