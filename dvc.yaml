@@ -1,1 +1,37 @@
 # pipeline stages
+stages:
+  ingest:
+    cmd: python -m src.data.data_ingestion
+    deps:
+      - data/raw
+      - src/data/data_ingestion.py
+      - src/constant.py
+      - src/config.py
+    params:
+      - data.store_id
+    outs:
+      - data/interim
+  
+  preprocess:
+    cmd: python -m src.data.data_preprocessing
+    deps:
+      - data/interim
+      - src/data/data_preprocessing.py
+      - src/data/data_validation.py
+      - src/constant.py
+    outs:
+      - data/processed/sales_long.parquet
+    
+  feature:
+    cmd: python -m src.feature.feature_engineering
+    deps:
+      - data/processed/sales_long.parquet
+      - src/feature/feature_engineering.py
+      - src/utils.py
+      - src/constant.py
+    params:
+      - forecast.horizon
+      - feature
+    outs:
+      - data/processed/features
+      
