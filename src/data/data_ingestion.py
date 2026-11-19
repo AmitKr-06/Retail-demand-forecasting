@@ -1,6 +1,6 @@
-# read raw CSVs, filter to one store
-import sys
+# read raw CSVs, keep one store, save three iterim files 
 import pandas as pd
+import sys
 
 from src.config import PARAMS
 from src.constant import (RAW_DIR, INTERIM_DIR, RAW_SALES_FILE, RAW_CALENDAR_FILE, RAW_PRICES_FILE,
@@ -30,11 +30,23 @@ def filter_store(sales: pd.DataFrame, prices: pd.DataFrame, store_id: str):
 def shrink_sales(sales_s: pd.DataFrame):
     """Day columns to int16 (sales are small whole numbers); returns the table and the day columns."""
     day_cols = [c for c in sales_s.columns if c.startswith(DAY_PREFIX)]
+    if not day_cols:
+        raise ValueError(f"no day columns ({DAY_PREFIX}1, {DAY_PREFIX}2, ....) fond in the sales fiel")
+    if sales_s[day_cols].isna().any().any():
+        raise ValueError("missing values in the sales columns")
     values = sales_s[day_cols].to_numpy()
     if values.min() < 0 or values.max() > 32767:
         raise ValueError("sales outside the int16 range, not converting")
     sales_s[day_cols] = sales_s[day_cols].astype("int16")
     return sales_s, day_cols
+
+
+def check_calendar_covers_day(calendar: pd.DataFrame, day_cols: list) -> None:
+    """Every sales day (d_1 .... d_N) must exist in the calendar."""
+    missing = set(day_cols) - set(calendar["d"])
+    if missing:
+        raise ValueError(f"{len(missing)} sales days are missing in the calendar, for example {sorted(missing)[:3]}")
+    
 
 def run_ingestion():
     try:
@@ -46,14 +58,30 @@ def run_ingestion():
         del sales
         sales_s, day_cols = shrink_sales(sales_s)
 
-        assert all(c in sales_s.columns for c in ID_COLS), "id columns missing"
-        assert sales_s["item_id"].is_unique, "an item appears twice in the store"
+        # validations (asserts → ValueError)
+        missing_ids = [c for c in ID_COLS if c not in sales_s.columns]
+        if missing_ids:
+            raise ValueError(f"missing id columns: {missing_ids}")
+
+        if not sales_s["item_id"].is_unique:
+            dupes = sales_s["item_id"][sales_s["item_id"].duplicated()].unique()
+            raise ValueError(f"duplicate item_id(s): {list(dupes[:5])}")
+
+        check_calendar_covers_day(calendar, day_cols)
+
+        priced_items = set(prices_s["item_id"].unique())
+        sold_items = set(sales_s["item_id"].unique())
+        n_priced = len(priced_items)
+        n_items = len(sold_items)
+
+        if n_priced != n_items:
+            logging.warning("%d of %d items have a price at some point", n_priced, len(sales_s))
 
         logging.info("sales (%s): %s | day columns: %d (%s to %s)", store_id, sales_s.shape,
                      len(day_cols), day_cols[0], day_cols[-1])
-        logging.info("prices (%s): %s | calendar: %s", store_id, prices_s.shape, calendar.shape)
+        logging.info("prices (%s): %s | items with a price: %d of %d | calendar: %s",
+                     store_id, prices_s.shape, n_priced, len(sales_s), calendar.shape)
         logging.info("total units sold in the store: %d", int(sales_s[day_cols].sum().sum()))
-
 
         INTERIM_DIR.mkdir(parents=True, exist_ok=True)
         sales_s.to_parquet(INTERIM_DIR / INTERIM_SALES_FILE, index=False)
