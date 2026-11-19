@@ -3,15 +3,19 @@
 # Every setting that can change a result. DVC tracks this file.
 data:
   store_id: CA_1     # store the model
+  state: CA
 
 forecast:
   horizon: 28      # days ahead
   n_folds: 3       # backtest folds: consecutive 28-day windows before test window
+  last_day: 1941
+  val_start: 1914
 
-features:
-  bolck_shifts: [7, 14, 21, 28]   # one model per horizon block; sales featuers end 'shift' days before the target day
+feature:
+  block_shifts: [7, 14, 21, 28]   # one model per horizon block; sales featuers end 'shift' days before the target day
   n_lags: 5                       # lag_k0.. lag_k4 = sales (shift + 7*k) days earlier
   roll_mean_windows: [7, 28]
+  roll_std_windows: [7, 28]
   zero_rate_window: 28
 
 model:
