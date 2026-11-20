@@ -29,6 +29,7 @@ stages:
       - src/feature/feature_engineering.py
       - src/utils.py
       - src/constant.py
+      - src/config.py
     params:
       - forecast.horizon
       - feature
