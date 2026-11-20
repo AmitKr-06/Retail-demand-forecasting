@@ -52,7 +52,6 @@ def empirical_quantile(Y_train, a, h=HORIZON, w=MA_WINDOW):
 METHODS = {"zeros (reference)": zeros, "naive": naive, "seasonal naive (7d)": seasonal_naive,
            "moving average (28d)": moving_average, "moving median (28d)": moving_median}
 
-
 def run_baselines():
     try:
         logging.info("baseline started")
