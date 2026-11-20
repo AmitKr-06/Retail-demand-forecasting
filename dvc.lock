@@ -14,8 +14,8 @@ stages:
       size: 306
     - path: src/constant.py
       hash: md5
-      md5: 9a55a894a4c1538237c98067f3437e19
-      size: 1999
+      md5: fb403dd356d208e956878b8d847fcf5e
+      size: 2253
     - path: src/data/data_ingestion.py
       hash: md5
       md5: 2334ed436e2e6bf9c84228a2faf215fe
@@ -39,8 +39,8 @@ stages:
       nfiles: 3
     - path: src/constant.py
       hash: md5
-      md5: 9a55a894a4c1538237c98067f3437e19
-      size: 1999
+      md5: fb403dd356d208e956878b8d847fcf5e
+      size: 2253
     - path: src/data/data_preprocessing.py
       hash: md5
       md5: 99f3764ff9f7c8282a78fe66bc9deb4c
@@ -61,10 +61,14 @@ stages:
       hash: md5
       md5: e4536aaad0371d9d1a47284e4e7cc446
       size: 23049666
+    - path: src/config.py
+      hash: md5
+      md5: 758eaa1f612ef87d2bda7fcb8068a708
+      size: 306
     - path: src/constant.py
       hash: md5
-      md5: 9a55a894a4c1538237c98067f3437e19
-      size: 1999
+      md5: fb403dd356d208e956878b8d847fcf5e
+      size: 2253
     - path: src/feature/feature_engineering.py
       hash: md5
       md5: 2eb92bf57f0a598985552a266dfed0b7
@@ -84,7 +88,9 @@ stages:
           n_lags: 5
           roll_mean_windows:
           - 7
+          - 14
           - 28
+          - 56
           roll_std_windows:
           - 7
           - 28
@@ -93,6 +99,6 @@ stages:
     outs:
     - path: data/processed/features
       hash: md5
-      md5: 92a630aa57a9f409004f408920c3965c.dir
-      size: 242418656
+      md5: 9fe541efc114819119c3989973e0d667.dir
+      size: 278412397
       nfiles: 5
