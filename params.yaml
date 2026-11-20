@@ -14,7 +14,7 @@ forecast:
 feature:
   block_shifts: [7, 14, 21, 28]   # one model per horizon block; sales featuers end 'shift' days before the target day
   n_lags: 5                       # lag_k0.. lag_k4 = sales (shift + 7*k) days earlier
-  roll_mean_windows: [7, 28]
+  roll_mean_windows: [7, 14, 28, 56]
   roll_std_windows: [7, 28]
   zero_rate_window: 28
 
