@@ -58,3 +58,8 @@ STATIC_NUM_FEATURES = ["sell_price", "price_diff_7", "price_ratio_28", "price_ra
 PERTURBATION_DAY = 1000         # Feature-dependenc check: sales from this day on are replaced
 PERTURBATION_ITEMS = 10
 PERTURBATION_SEED = 5
+
+# evaluation 
+MASE_SEASON = 7                  # weekly cycle: seasonal naive period and MASE scale
+MA_WINDOW = 28                   # window of the moving average / median / empirical quantile (days)
+BASELINE_RESULTS_FILE = "baseline_results.csv"
